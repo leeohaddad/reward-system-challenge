@@ -1,5 +1,6 @@
 (ns nu-challenge.core
-  (:gen-class))
+  (:gen-class)
+  (:require [clojure.data.json :as json]))
 
 (def scores-dp [0])
 
@@ -26,40 +27,9 @@
 ; ----------------------------------------------------------------------------------------------------
 
 ; ----------------------------------------------------------------------------------------------------
-; begin of output functions
-(defn to-json
-	"I convert the output to the json format."
-	[output]
-	(output ".json"))
-
-(defn apply-format
-  "I put the output in the desired format."
-  [show-format output]
-  (if (= show-format :raw)
-  		(str "Score: " output)
-  (if (= show-format :json)
-  		(to-json output))))
-
-(defn show-output-httpep
-  "I show the output using a http endpoint."
-  [output]
-  (println output ".httpep"))
-
-(defn show-output
-  "I show the output using the mode chosen by the caller!"
-  [destination show-format output]
-  (def formatted-output (apply-format show-format output))
-  (if (= destination :std)
-  		(println formatted-output)
-  (if (= destination :httpep)
-  		(show-output-httpep formatted-output))))
-; end of output functions
-; ----------------------------------------------------------------------------------------------------
-
-; ----------------------------------------------------------------------------------------------------
 ; begin of data structure handling functions
 (defn build-hash-map-entry
-	"I receive a vector and return the map with same values with indexes as keys."
+	"I receive an index and a value and return a map entry (pair-vector) using them."
 	[target-index target-value]
 	[(+ target-index 1) target-value])
 
@@ -67,6 +37,11 @@
 	"I receive a vector and return the map with same values with indexes as keys."
 	[input-vector]
 	(reduce conj {} (map-indexed build-hash-map-entry input-vector)))
+
+(defn prepare-for-json
+	"I receive a vector of scores and return it formatted for json conversion."
+	[scores-dp]
+	(hash-map "ranking" (reduce conj {} (sort-by last > (vector-to-hash-map scores-dp)))))
 
 (defn get-customer
 	"I receive a vector of parameters and extract the inviter customer id from it."
@@ -127,13 +102,44 @@
 ; end of computations functions
 ; ----------------------------------------------------------------------------------------------------
 
+; ----------------------------------------------------------------------------------------------------
+; begin of output functions
+(defn to-json
+	"I receive a map of any depth (the values of the map may be maps) ans return it in the json format."
+	[output]
+	(json/write-str output))
+
+(defn apply-format
+  "I put the output in the desired format."
+  [show-format output]
+  (if (= show-format :raw)
+  		(str "Score: " output)
+  (if (= show-format :json)
+  		(to-json (prepare-for-json output)))))
+
+(defn show-output-httpep
+  "I show the output using a http endpoint."
+  [output]
+  (println output ".httpep"))
+
+(defn show-output
+  "I show the output using the mode chosen by the caller!"
+  [destination show-format output]
+  (def formatted-output (apply-format show-format output))
+  (if (= destination :std)
+  		(println formatted-output)
+  (if (= destination :httpep)
+  		(show-output-httpep formatted-output))))
+; end of output functions
+; ----------------------------------------------------------------------------------------------------
+
 (defn solve-me
   "I reveive an input for the Reward System challenge and print the results in the requested format."
   [& input]
   (println "Input is:" input)
   (compute-score (first input))
-  (def solution (sort-by last > (vector-to-hash-map scores-dp)))
-  (show-output :std :raw solution))
+  (def solution scores-dp)
+  (show-output :std :json solution))
 
 (defn -main
   "I orchestrate the whole thing quickly and efficiently. I'm the leader here!"
