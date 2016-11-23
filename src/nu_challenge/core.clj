@@ -1,7 +1,7 @@
 (ns nu-challenge.core
   (:gen-class))
 
-(def dp [0])
+(def scores-dp [0])
 
 ; ----------------------------------------------------------------------------------------------------
 ; begin of input functions
@@ -56,39 +56,66 @@
 ; end of output functions
 ; ----------------------------------------------------------------------------------------------------
 
+; ----------------------------------------------------------------------------------------------------
+; begin of data structure handling functions
 (defn get-consumer
 	"I receive a vector of parameters and extract the inviter consumer id from it."
 	[root-node]
-	(first root-node))
+	(- (first root-node) 1))
 
 (defn get-invitees
 	"I receive a vector of parameters and extract the invitees id from it."
 	[root-node]
 	(rest root-node))
 
-(defn complete-vector
+(defn fill-vector
 	"I make sure that the vector is big enough for some index."
 	[input-vector target-index]
-	(def result (conj input-vector 0))
+	(def result (conj input-vector 0.0))
 	(if (= (count result) target-index)
 			result
-			(complete-vector result target-index)))
+			(fill-vector result target-index)))
+
+(defn ensure-bounds
+	"I check if the vector is big enough for some index"
+	[target-vector target-index]
+	(if (< (count target-vector) target-index)
+			(fill-vector target-vector target-index)
+			target-vector))
+; end of data structure handling functions
+; ----------------------------------------------------------------------------------------------------
+
+; ----------------------------------------------------------------------------------------------------
+; begin of computations functions
+(defn my-indirect-contribution 
+	"I am the one responsible for computing how much a consumer contributes indirectly to it's inviter's score."
+	[total-score]
+	(/ total-score 2.0))
+
+(defn my-direct-contribution
+	"I am the one responsible for computing how much a consumer contributes directly to it's inviter's score."
+	[consumer-subtree]
+	(if (= (count consumer-subtree) 1)
+			0
+			1))
+
+(defn compute-my-contribution
+	"I am the one responsible for computing how much a consumer contributes to it's inviter's score."
+	[consumer-subtree total-score]
+	(+ (my-direct-contribution consumer-subtree) (my-indirect-contribution total-score)))
 
 (defn compute-score
-	"I receive a sub-tree of inviter-invitee relations and compute the score for the root customer."
-	[root-node]
-	(def total-score (reduce + (map compute-score (get-invitees root-node))))
-	(def consumer (- (get-consumer root-node) 1))
-	(if (< (count dp) (+ consumer 1))
-			(def dp (complete-vector dp (+ consumer 1))))
-	(def dp (assoc dp consumer (+ (get dp consumer) total-score)))
-	(println "Finished calculations for #" consumer "=" (get dp consumer))
-	(def direct-contribution (if (= (count root-node) 1)
-																0
-																1))
-	(def indirect-contribution (/ total-score 2.0))
-	(println "  Direct contribution to inviter:" direct-contribution "\n  Indirect contribution to inviter:" indirect-contribution)
-	(+ direct-contribution indirect-contribution))
+	"I receive a sub-tree of inviter-invitee relations and compute the score for the root customer.
+	 I store the customer score in the scores-dp and I return the custumer contribution to it's inviter's score."
+	[consumer-subtree]
+	(def scores-dp (ensure-bounds scores-dp (+ (get-consumer consumer-subtree) 1)))
+	(def invitees-contribution (reduce + (map compute-score (get-invitees consumer-subtree))))
+	(def total-score (+ invitees-contribution (get scores-dp (get-consumer consumer-subtree))))
+	(def scores-dp (assoc scores-dp (get-consumer consumer-subtree) total-score))
+	(println "Finished calculations for #" (get-consumer consumer-subtree) "=" (get scores-dp (get-consumer consumer-subtree)))
+	(compute-my-contribution consumer-subtree total-score))
+; end of computations functions
+; ----------------------------------------------------------------------------------------------------
 
 (defn solve-me
   "I reveive an input for the Reward System challenge and print the results in the requested format."
@@ -96,8 +123,8 @@
   (println "Didn't solve yet!")
   (println "Input is:" input)
   (compute-score (first input))
-  (println "Scores:" dp)
-  (show-output :std :raw "solution"))
+  (show-output :std :raw "solution")
+  (println "Scores:" scores-dp))
 
 (defn -main
   "I orchestrate the whole thing quickly and efficiently. I'm the leader here!"
