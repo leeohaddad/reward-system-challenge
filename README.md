@@ -7,6 +7,13 @@ Thank you Rodrigo Flores for all the good Clojure references you provided to me!
 
 Download from https://github.com/leeohaddad/reward-system-challenge.
 
+## Dependencies
+
+This solution uses the following libraries:
+- [Compojure][http-endpoints-lib]
+- [data.json][json-lib]
+So, if you don't have them, Leiningen will download it for you, since they are marked as dependencies.
+
 ## Usage
 
 This project was created using a project automation tool called Leiningen. Using it, any user can run this project in a quick and easy manner.
@@ -50,5 +57,9 @@ This can be done through recursion or dynamic programming. Let's stick to the re
 
 Copyright © 2016 Leonardo Haddad Carlos
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the Eclipse Public License, the same as Clojure.
+
+[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
+
+   [http-endpoints-lib]: <https://github.com/weavejester/compojure>
+   [json-lib]: <https://github.com/clojure/data.json>

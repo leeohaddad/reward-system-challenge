@@ -2,7 +2,7 @@
   (:gen-class)
   (:require [clojure.data.json :as json]))
 
-(def scores-dp [0])
+(def scores-dp [0.0])
 
 ; ----------------------------------------------------------------------------------------------------
 ; begin of input functions
