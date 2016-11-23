@@ -27,14 +27,23 @@ With that on mind, I tried to make the code as modular and reusable as possible.
 ### The Wonderful Data Structure
 
 I chose to use a Tree to store the data for a pair of reasons:
- - To calculate the score of a costumer, we need to analyse the score of all his invitees. So, something close to a DFS looks like a good solution, and Clojure may help us to use this structure to bring concurrency.
+ - To calculate the score of a customer, we need to analyse the score of all his invitees. So, something close to a DFS looks like a good solution, and Clojure may help us to use this structure to bring concurrency.
  - The inviter-invitee relation is similar to a parent-child relation, and that, allied to the one-inviter-per-invitee rule (comparable to one-parent-per-node/child rule), makes our data fit perfectly with the tree structure.
+I implemented the Tree data structure in a very simple manner: each customer/invitee is a vector in the form [index & invitees].
 
 ### The Amazing Solution
 
 The fact that invitations are worth (1/2)^k (k: invitation level) means that each direct invitee contributes to the inviter score with half it's own total score.
 This means that, as mentioned, something DFS-like seems good to solve the problem.
 This can be done through recursion or dynamic programming. Let's stick to the recursion, since we don't use the computed score of any invitee in any task other than computing his inviter score. 
+
+### Next Steps
+
+ - Implement input from file.
+ - Implement additional input from http endpoint.
+ - Implement JSON format.
+ - Implement output to http endpoint.
+ - Bring some concurrency.
 
 ...
 
