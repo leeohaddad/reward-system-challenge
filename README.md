@@ -7,20 +7,36 @@ Thank you Rodrigo Flores for all the good Clojure references you provided to me!
 
 Download from https://github.com/leeohaddad/reward-system-challenge.
 
-## Dependencies
+## Prerequisites
+
+This project was created using a project automation tool called Leiningen.
+Using it, any user can run this project in a quick and easy manner.
+You will need [Leiningen][] 2.0.0 or above [installed][leiningen-download].
 
 This solution uses the following libraries:
 - [Compojure][http-endpoints-lib]
 - [data.json][json-lib]
 So, if you don't have them, Leiningen will download it for you, since they are marked as dependencies.
 
-## Usage
+## Running
 
-This project was created using a project automation tool called Leiningen. Using it, any user can run this project in a quick and easy manner.
-Leiningen is available at http://leiningen.org/ and is very straight-forward to use.
-After installing Leiningen, just move to the project root directory and run the following command:
+With Leiningen installed, first move to the project root directory.
 
-    $ lein run FILENAME
+To start the web server for the application, run:
+
+```sh
+$ lein ring server
+```
+
+If you don't have Ring yet, Leiningen will also download ir for you.
+
+After the server starts, '/' and '/index.html' show you a greetings page, while '/getRanking' gives you the json-formatted ranking.
+
+You can also run the application locally:
+
+```sh
+$ lein run "input.txt"
+```
 
 ## Thought line to build the solution
 
@@ -51,6 +67,8 @@ This can be done through recursion or dynamic programming. Let's stick to the re
  - Implement output to http endpoint.
  - Bring some concurrency.
  - Implement tests.
+ - Split functions into modules.
+ - Fix the refresh problem (inf +).
 
 ...
 
@@ -62,5 +80,7 @@ Distributed under the Eclipse Public License, the same as Clojure.
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
+   [leiningen-download]: <http://leiningen.org/>
+   [leiningen]: <https://github.com/technomancy/leiningen>
    [http-endpoints-lib]: <https://github.com/weavejester/compojure>
    [json-lib]: <https://github.com/clojure/data.json>

@@ -38,11 +38,6 @@
 	[input-vector]
 	(reduce conj {} (map-indexed build-hash-map-entry input-vector)))
 
-(defn prepare-for-json
-	"I receive a vector of scores and return it formatted for json conversion."
-	[scores-dp]
-	(hash-map "ranking" (reduce conj {} (sort-by last > (vector-to-hash-map scores-dp)))))
-
 (defn get-customer
 	"I receive a vector of parameters and extract the inviter customer id from it."
 	[root-node]
@@ -68,6 +63,28 @@
 			(fill-vector target-vector target-index)
 			target-vector))
 ; end of data structure handling functions
+; ----------------------------------------------------------------------------------------------------
+
+; ----------------------------------------------------------------------------------------------------
+; begin of formatting functions
+(defn prepare-for-json
+	"I receive a vector of scores and return it formatted for json conversion."
+	[scores-dp]
+	(hash-map "ranking" (reduce conj {} (sort-by last > (vector-to-hash-map scores-dp)))))
+
+(defn to-json
+	"I receive a map of any depth (the values of the map may be maps) ans return it in the json format."
+	[output]
+	(json/write-str output))
+
+(defn apply-format
+  "I put the output in the desired format."
+  [show-format output]
+  (if (= show-format :raw)
+  		(str "Score: " output)
+  (if (= show-format :json)
+  		(to-json (prepare-for-json output)))))
+; end of formatting functions
 ; ----------------------------------------------------------------------------------------------------
 
 ; ----------------------------------------------------------------------------------------------------
@@ -102,46 +119,22 @@
 ; end of computations functions
 ; ----------------------------------------------------------------------------------------------------
 
-; ----------------------------------------------------------------------------------------------------
-; begin of output functions
-(defn to-json
-	"I receive a map of any depth (the values of the map may be maps) ans return it in the json format."
-	[output]
-	(json/write-str output))
-
-(defn apply-format
-  "I put the output in the desired format."
-  [show-format output]
-  (if (= show-format :raw)
-  		(str "Score: " output)
-  (if (= show-format :json)
-  		(to-json (prepare-for-json output)))))
-
-(defn show-output-httpep
-  "I show the output using a http endpoint."
-  [output]
-  (println output ".httpep"))
-
-(defn show-output
-  "I show the output using the mode chosen by the caller!"
-  [destination show-format output]
-  (def formatted-output (apply-format show-format output))
-  (if (= destination :std)
-  		(println formatted-output)
-  (if (= destination :httpep)
-  		(show-output-httpep formatted-output))))
-; end of output functions
-; ----------------------------------------------------------------------------------------------------
-
 (defn solve-me
-  "I reveive an input for the Reward System challenge and print the results in the requested format."
-  [& input]
+  "I reveive an input for the Reward System challenge and return the solution."
+  [main-arg]
+  (def input (read-input :file main-arg))
   (println "Input is:" input)
-  (compute-score (first input))
+  (compute-score input)
   (def solution scores-dp)
-  (show-output :std :json solution))
+  solution)
+
+(defn formatted-solution
+	"I receive and input for the Reward System challenge and return the results in the chosen format."
+	[chosen-format main-arg]
+	(apply-format chosen-format (solve-me main-arg)))
 
 (defn -main
-  "I orchestrate the whole thing quickly and efficiently. I'm the leader here!"
+  "I orchestrate the whole thing. I'm the leader here!"
   [main-arg]
-  (solve-me (read-input :file main-arg)))
+  (println (formatted-solution :json main-arg))
+  0)
