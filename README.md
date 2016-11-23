@@ -41,6 +41,7 @@ This can be done through recursion or dynamic programming. Let's stick to the re
 
  - Implement input from file.
  - Implement additional input from http endpoint.
+ - Sort the ranking.
  - Implement JSON format.
  - Implement output to http endpoint.
  - Bring some concurrency.

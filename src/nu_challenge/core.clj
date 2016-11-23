@@ -36,7 +36,7 @@
   "I put the output in the desired format."
   [show-format output]
   (if (= show-format :raw)
-  		output
+  		(str "Score: " output)
   (if (= show-format :json)
   		(to-json output))))
 
@@ -58,6 +58,16 @@
 
 ; ----------------------------------------------------------------------------------------------------
 ; begin of data structure handling functions
+(defn build-hash-map-entry
+	"I receive a vector and return the map with same values with indexes as keys."
+	[target-index target-value]
+	[(+ target-index 1) target-value])
+
+(defn vector-to-hash-map
+	"I receive a vector and return the map with same values with indexes as keys."
+	[input-vector]
+	(reduce conj {} (map-indexed build-hash-map-entry input-vector)))
+
 (defn get-customer
 	"I receive a vector of parameters and extract the inviter customer id from it."
 	[root-node]
@@ -120,11 +130,10 @@
 (defn solve-me
   "I reveive an input for the Reward System challenge and print the results in the requested format."
   [& input]
-  (println "Didn't solve yet!")
   (println "Input is:" input)
   (compute-score (first input))
-  (show-output :std :raw "solution")
-  (println "Scores:" scores-dp))
+  (def solution (sort-by last > (vector-to-hash-map scores-dp)))
+  (show-output :std :raw solution))
 
 (defn -main
   "I orchestrate the whole thing quickly and efficiently. I'm the leader here!"
