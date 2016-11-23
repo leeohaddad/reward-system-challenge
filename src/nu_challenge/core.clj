@@ -58,8 +58,8 @@
 
 ; ----------------------------------------------------------------------------------------------------
 ; begin of data structure handling functions
-(defn get-consumer
-	"I receive a vector of parameters and extract the inviter consumer id from it."
+(defn get-customer
+	"I receive a vector of parameters and extract the inviter customer id from it."
 	[root-node]
 	(- (first root-node) 1))
 
@@ -88,32 +88,32 @@
 ; ----------------------------------------------------------------------------------------------------
 ; begin of computations functions
 (defn my-indirect-contribution 
-	"I am the one responsible for computing how much a consumer contributes indirectly to it's inviter's score."
+	"I am the one responsible for computing how much a customer contributes indirectly to it's inviter's score."
 	[total-score]
 	(/ total-score 2.0))
 
 (defn my-direct-contribution
-	"I am the one responsible for computing how much a consumer contributes directly to it's inviter's score."
-	[consumer-subtree]
-	(if (= (count consumer-subtree) 1)
+	"I am the one responsible for computing how much a customer contributes directly to it's inviter's score."
+	[customer-subtree]
+	(if (= (count customer-subtree) 1)
 			0
 			1))
 
 (defn compute-my-contribution
-	"I am the one responsible for computing how much a consumer contributes to it's inviter's score."
-	[consumer-subtree total-score]
-	(+ (my-direct-contribution consumer-subtree) (my-indirect-contribution total-score)))
+	"I am the one responsible for computing how much a customer contributes to it's inviter's score."
+	[customer-subtree total-score]
+	(+ (my-direct-contribution customer-subtree) (my-indirect-contribution total-score)))
 
 (defn compute-score
 	"I receive a sub-tree of inviter-invitee relations and compute the score for the root customer.
 	 I store the customer score in the scores-dp and I return the custumer contribution to it's inviter's score."
-	[consumer-subtree]
-	(def scores-dp (ensure-bounds scores-dp (+ (get-consumer consumer-subtree) 1)))
-	(def invitees-contribution (reduce + (map compute-score (get-invitees consumer-subtree))))
-	(def total-score (+ invitees-contribution (get scores-dp (get-consumer consumer-subtree))))
-	(def scores-dp (assoc scores-dp (get-consumer consumer-subtree) total-score))
-	(println "Finished calculations for #" (get-consumer consumer-subtree) "=" (get scores-dp (get-consumer consumer-subtree)))
-	(compute-my-contribution consumer-subtree total-score))
+	[customer-subtree]
+	(def scores-dp (ensure-bounds scores-dp (+ (get-customer customer-subtree) 1)))
+	(def invitees-contribution (reduce + (map compute-score (get-invitees customer-subtree))))
+	(def total-score (+ invitees-contribution (get scores-dp (get-customer customer-subtree))))
+	(def scores-dp (assoc scores-dp (get-customer customer-subtree) total-score))
+	(println "Finished calculations for #" (get-customer customer-subtree) "=" (get scores-dp (get-customer customer-subtree)))
+	(compute-my-contribution customer-subtree total-score))
 ; end of computations functions
 ; ----------------------------------------------------------------------------------------------------
 
