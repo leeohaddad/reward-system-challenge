@@ -50,6 +50,7 @@ This can be done through recursion or dynamic programming. Let's stick to the re
  - Implement additional input from http endpoint.
  - Implement output to http endpoint.
  - Bring some concurrency.
+ - Implement tests.
 
 ...
 
