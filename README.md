@@ -40,7 +40,7 @@ You can also run the application locally:
 $ lein run "input.txt"
 ```
 
-## Thought line to build the solution
+## Line of thought to build the solution
 
 ### The Awesome Foresight
 
@@ -71,7 +71,6 @@ This can be done through recursion or dynamic programming. Let's stick to the re
  - Bring some concurrency.
  - Implement tests.
  - Split functions into modules.
- - Fix the refresh problem (inf +).
 
 ...
 

@@ -122,6 +122,7 @@
 (defn solve-me
   "I reveive an input for the Reward System challenge and return the solution."
   [main-arg]
+  (def scores-dp [0.0])
   (def input (read-input :file main-arg))
   (println "Input is:" input)
   (compute-score input)
