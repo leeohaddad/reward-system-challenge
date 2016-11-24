@@ -45,15 +45,15 @@ $ lein run "input.txt"
 ### The Awesome Foresight
 
 Why limiting this source code to this specific challenge? All that functions can be extremely useful for other features.
-Even the same feature may resquest something like another input method some day.
-Of course we don't want to antecipate work that can end up not being used at all. But we can leave the field ready for our need from the future.
+Even the same feature may request something like another input method some day.
+Of course we don't want to anticipate work that can end up not being used at all. But we can leave the field ready for our need from the future.
 With that on mind, I tried to make the code as modular and reusable as possible.
 
 ### The Wonderful Data Structure
 
 I chose to use a Tree to store the data for a pair of reasons:
 
- - To calculate the score of a customer, we need to analyse the score of all his invitees. So, something close to a DFS looks like a good solution, and Clojure may help us to use this structure to bring concurrency.
+ - To calculate the score of a customer, we need to analyze the score of all his invitees. So, something close to a DFS looks like a good solution, and Clojure may help us to use this structure to bring concurrency.
  - The inviter-invitee relation is similar to a parent-child relation, and that, allied to the one-inviter-per-invitee rule (comparable to one-parent-per-node/child rule), makes our data fit perfectly with the tree structure.
 
 I implemented the Tree data structure in a very simple manner: each customer/invitee is a vector in the form [index & invitees].
