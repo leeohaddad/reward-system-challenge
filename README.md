@@ -70,7 +70,6 @@ This can be done through recursion or dynamic programming. Let's stick to the re
  - Implement additional input from http endpoint.
  - Bring some concurrency.
  - Implement tests.
- - Split functions into modules.
 
 ...
 
