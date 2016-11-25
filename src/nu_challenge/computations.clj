@@ -14,7 +14,6 @@
 (defn indirect-score
 	"I'm the one who calculates the indirect score that a customer will earn with his invitees confirmed invitations."
 	[invitations-data customer current-scores]
-	(println "invitations-data" invitations-data "customer" customer)
 	(if (> (count (get-valid-invitees invitations-data customer)) 0)
 			(/ (sum-of-invitees-scores invitations-data customer current-scores) 2.0)
 			0.0))
