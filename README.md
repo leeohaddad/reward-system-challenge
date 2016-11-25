@@ -58,10 +58,27 @@ I chose to use a Tree to store the data for a pair of reasons:
 
 I implemented the Tree data structure in a very simple manner: each customer/invitee is a vector in the form [index & invitees].
 
+### The * Even Better * Data Structure
+
+Despite being the best option for the solution computation, the tree has been proven inefficient for inclusion, since we can't access elements without searching in the tree.
+
+To solve this problem, I changed my data structure to something that still allows me quickly transverse the structure looking for result, but that also allows me to make inclusion in something close to O(1).
+
+The result was a hash-map of pairs of sets. Customers are the hash-map keys and lead to the pair of sets that contain the invitees of that customer. The first set stores the valid invitations, while the second set stores the invalid invitations.
+
 ### The Amazing Solution
 
 The fact that invitations are worth (1/2)^k (k: invitation level) means that each direct invitee contributes to the inviter score with half it's own total score.
-This means that, as mentioned, something DFS-like seems good to solve the problem.
+This means that, as mentioned, som### The Wonderful Data Structure
+
+I chose to use a Tree to store the data for a pair of reasons:
+
+ - To calculate the score of a customer, we need to analyze the score of all his invitees. So, something close to a DFS looks like a good solution, and Clojure may help us to use this structure to bring concurrency.
+ - The inviter-invitee relation is similar to a parent-child relation, and that, allied to the one-inviter-per-invitee rule (comparable to one-parent-per-node/child rule), makes our data fit perfectly with the tree structure.
+
+I implemented the Tree data structure in a very simple manner: each customer/invitee is a vector in the form [index & invitees].
+
+ething DFS-like seems good to solve the problem.
 This can be done through recursion or dynamic programming. Let's stick to the recursion, since we don't use the computed score of any invitee in any task other than computing his inviter score. 
 
 ### Next Steps

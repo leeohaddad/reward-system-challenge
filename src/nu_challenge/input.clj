@@ -7,7 +7,8 @@
   "I store and delivery hardcoded inputs. Call example: '(get-hardcoded-input :example)'."
   [input-id]
   (if (= input-id :example)
-			[1 [2 [4]] [3 [4 [5] [6]]]]))
+    {:root 1 :data {1 [#{2 3} #{}] 2 [#{} #{4}] 3 [#{4} #{}] 4 [#{5 6} #{}] 5 [#{} #{}] 6 [#{} #{}]}}))
+			;[1 [2 [4]] [3 [4 [5] [6]]]]))
 
 (defn read-input-from-file
   "I go get the input from some specified file."

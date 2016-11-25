@@ -13,14 +13,19 @@
 ;	[input-vector]
 ;	(reduce conj {} (map-indexed build-hash-map-entry input-vector)))
 ;
-(defn get-customer
-	"I receive a vector of parameters and extract the inviter customer id from it."
-	[root-node]
-	(first root-node))
+;(defn get-customer
+;	"I receive a vector of parameters and extract the inviter customer id from it."
+;	[root-node]
+;	(first root-node))
+;
+(defn get-valid-invitees
+	"I tell you who are the valid invitees of the customer."
+	[invitations-data customer]
+	(first (get invitations-data customer)))
 
-(defn get-invitees
-	"I receive a vector of parameters and extract the invitees id from it."
-	[root-node]
-	(rest root-node))
+(defn get-invalid-invitees
+	"I tell you who are the invalid invitees of the customer."
+	[invitations-data customer]
+	(second (get invitations-data customer)))
 ; end of data structure handling functions
 ; ----------------------------------------------------------------------------------------------------
