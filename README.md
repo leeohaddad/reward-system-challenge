@@ -37,7 +37,7 @@ After the server starts, `/` and `/index.html` show you a greetings page, while 
 You can also run the application locally:
 
 ```sh
-$ lein run "input.txt"
+$ lein run "resources/input.txt"
 ```
 
 ## Line of thought to build the solution
@@ -77,9 +77,13 @@ The fact that invitations are worth (1/2)^k (k: invitation level) means that eac
 This means that, as mentioned, something DFS-like seems good to solve the problem.
 This can be done through recursion or dynamic programming. Let's stick to the recursion, since we don't use the computed score of any invitee in any task other than computing his inviter score. 
 
+### Current Bugs
+
+Oh, well, not everything smells like flower, right? I found a bug when I was testing the file input reader with the provided input.txt. I manage to find the only one line that makes my program crash: "42 1". Removing it, the program goes fine. We all know that 42 is a sacred number, but what would it be causing into my data structures and functions? I'll investigate that in the next chapters!
+
 ### Next Steps
 
- - Implement input from file.
+ - Fix the "42 1" bug.
  - Implement additional input from http endpoint.
  - Bring some concurrency.
  - Implement tests.

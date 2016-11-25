@@ -7,7 +7,7 @@
 
 (defroutes app-routes
   (GET "/" [] (resp/redirect "/index.html"))
-  (GET "/getRanking" [] (formatted-solution :json "input.txt"))
+  (GET "/getRanking" [] (formatted-solution :json "resources/input.txt"))
   (route/not-found "Not Found"))
 
 (def app

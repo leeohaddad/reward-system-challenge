@@ -15,19 +15,12 @@
   [current-input]
   (add-invitation (add-invitation (add-invitation (add-invitation (add-invitation (add-invitation current-input [1 2]) [1 3]) [3 4]) [2 4]) [4 5]) [4 6]))
 
-(defn get-invitation-from-file
-  "I get the next invitation of the input file."
-  ; But for now I just fake it.
-  [source-file fake-arg]
-  [source-file fake-arg])
-
 (defn add-invitations-from-file
   "I add invitations from some specified file to the current input."
-  ; But for now I just fake it.
   [current-input source-file]
-  (simulate-invitations-input current-input))
-  ;(add-invitation current-input (get-invitation-from-file source-file)))
-
+  (reduce add-invitation current-input (map (fn [input] (clojure.string/split input #" ")) (clojure.string/split-lines (slurp source-file)))))
+  ;(simulate-invitations-input current-input)) ; for tests
+  
 (defn read-input-from-file
   "I go get the input from some specified file."
   [source-file]
