@@ -1,6 +1,6 @@
-(ns nu-challenge.core-test
+(ns nu-challenge.solution-test
   (:require [clojure.test :refer :all]
-            [nu-challenge.core :refer :all]))
+            [nu-challenge.solution :refer :all]))
 
 (deftest a-test
   (testing "FIXME, I fail."

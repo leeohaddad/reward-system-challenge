@@ -32,13 +32,25 @@ $ lein ring server
 
 If you don't have Ring yet, Leiningen will also download ir for you.
 
-After the server starts, `/` and `/index.html` show you a greetings page, while `/getRanking` gives you the json-formatted ranking.
+After the server starts:
+ - `/index.html` shows you a greetings page with the links to the endpoints.
+ - `/` loads data from input.txt* and redirects to `/index.html`.
+ - `/getRanking` shows you the json-formatted ranking.
+ - `/addInvitation?from=ID1&to=ID2` adds a new invitation from ID1 to ID2 and shows the result.
 
-You can also run the application locally:
+ Example:
+ - Access: `http://localhost:3000/getRanking/` -> Loaded initial data and showed index.html.
+ - Access: `/getRanking` showed the json-formatted ranking.
+ - Access: `/addInvitation?from=5&to=8` added a new invitation from customer 5 to customer 8 and showed the result.
+
+You can also run the application using the terminal:
 
 ```sh
 $ lein run "resources/input.txt"
 ```
+
+Note that it's possible to build you database from scratch with add-invitation (`/addInvitation`).
+All you need to do is to provide an empty input file and the database will be initiated also empty.
 
 ## Line of thought to build the solution
 
@@ -77,20 +89,23 @@ The fact that invitations are worth (1/2)^k (k: invitation level) means that eac
 This means that, as mentioned, something DFS-like seems good to solve the problem.
 This can be done through recursion or dynamic programming. Let's stick to the recursion, since we don't use the computed score of any invitee in any task other than computing his inviter score. 
 
-### Current Bugs
+### The Cycles Problem
 
-Oh, well, not everything smells like flower, right? I found a bug when I was testing the file input reader with the provided input.txt. I manage to find the only one line that makes my program crash: "42 1". Removing it, the program goes fine. We all know that 42 is a sacred number, but what would it be causing into my data structures and functions? I'll investigate that in the next chapters!
+Oh, well, not everything smells like flower, right? After finishing my solution implementation, I found a problem when testing it with the provided input.txt. I managed to find the only line that makes my program crash: "42 1". Removing it, the program was going fine. It could have been due to all the big misteries that lay around the number 42, but it was actually just a problem with cycles.
+In fact, it makes a lot of sense, since cycles would create mutual dependencies, making it impossible to make the caculations.
+To solve it, I made an assumption: if someone has made any invitation, this person counts as an invited person, even if no one has actually invited this person.
+This way, we can apply the "multiple invites sent to the same person don't produce any further points" rule and apply the solution successfully.
 
 ### Next Steps
 
- - Fix the "42 1" bug.
- - Implement additional input from http endpoint.
+ - Fix the cycles problem.
  - Bring some concurrency.
  - Implement tests.
 
 ### Future Possibilities
 
  - Implement multiple roots (non-invited customers). For now, assumes it's unique.
+ - Implement other nice ways of updating the database (e.g. a request that receives a list of invitations and adds them all).
 
 ...
 

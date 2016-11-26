@@ -5,7 +5,7 @@
 ; ----------------------------------------------------------------------------------------------------
 ; begin of formatting functions
 (defn to-json
-	"I receive a map of any depth (the values of the map may be maps) ans return it in the json format."
+	"I receive a map of any depth (the values of the map may be maps) and return it in the json format."
 	[output]
 	(json/write-str output))
 

@@ -9,7 +9,7 @@
                  [ring/ring-defaults "0.2.1"]
                  [ring/ring-core "1.3.2"]
   							 [org.clojure/data.json "0.2.6"]]
-  :main ^:skip-aot nu-challenge.core
+  :main ^:skip-aot nu-challenge.solution
   :target-path "target/%s"
   :plugins [[lein-ring "0.9.7"]]
   :ring {:handler nu-challenge.handler/app}
