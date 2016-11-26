@@ -31,7 +31,7 @@
 (defn load-input-and-redirect
   "I read the input from resources/input.txt and return the output of the problem solution."
   [redirect-to]
-  (def my-data (read-input :file "resources/example.txt"))
+  (def my-data (read-input :file "resources/input.txt"))
   (resp/redirect redirect-to))
 
 (defn -main

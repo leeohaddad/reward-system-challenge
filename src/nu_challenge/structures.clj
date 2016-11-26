@@ -16,10 +16,15 @@
   [current-input invitee]
   (update-in current-input [:invitees] (fn [x] (conj (get current-input :invitees) invitee))))
 
+(defn register-inviter
+  "I also update the input [:invitees] information."
+  [current-input inviter]
+  (update-in current-input [:invitees] (fn [x] (conj (get current-input :invitees) inviter))))
+
 (defn apply-changes
   "I update the input informations outside :data."
   [current-input invitation]
-  (update-root (register-invitee current-input (last invitation)) invitation))
+  (update-root (register-invitee (register-inviter current-input (first invitation)) (last invitation)) invitation))
 
 (defn add-first-time-invitation
   "I add a new first-time invitation to the current input."

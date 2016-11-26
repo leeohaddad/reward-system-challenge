@@ -98,7 +98,8 @@ This way, we can apply the "multiple invites sent to the same person don't produ
 
 ### Next Steps
 
- - Fix the cycles problem.
+ - Fix the update-root logic.
+ - Find out why we lose the ranking sort (sort-by -> sorted -> reduce conj {} -> not sorted) when testing with input.txt.
  - Bring some concurrency.
  - Implement tests.
 
