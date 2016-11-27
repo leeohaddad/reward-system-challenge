@@ -7,7 +7,7 @@
 		  			[nu-challenge.computations :refer :all]))
 
 (def debug-on false)
-(def my-data {:root -1 :data {} :invitees #{}})
+(def my-data {:root -1 :data {} :inviters #{} :invitees #{}})
 
 (defn solve-me
   "I reveive an input for the Reward System challenge and return the solution."

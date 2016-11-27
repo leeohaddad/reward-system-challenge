@@ -1,30 +1,48 @@
 (ns nu-challenge.structures
-  (:gen-class))
+  (:gen-class)
+  (:require [clojure.set :as set]))
 
 ; ----------------------------------------------------------------------------------------------------
-(defn update-root
-  "I update the input [:root] information. I assume no cycles (A->B->C->A)."
-  [current-input invitation]
-  (if (= (get current-input :root) -1)
-      (update-in current-input [:root] (fn [x] (first invitation)))
-      (if (= (get current-input :root) (last invitation))
-          (update-in current-input [:root] (fn [x] (first invitation)))
-          current-input)))
+(defn get-root
+  "I find out which inviter has not been invited."
+  [current-input]
+  (first (set/difference (get current-input :inviters) (get current-input :invitees))))
+
+(defn set-root
+  "I set the input [:root] information."
+  [current-input]
+  (update-in current-input [:root] (fn [x] (get-root current-input))))
+      
+(defn customer-has-invited
+  "I check if a customer has already invited someone."
+  [current-input customer]
+  (if (contains? (get current-input :inviters) customer)
+          true
+          false))
+      
+(defn customer-was-invited
+  "I check if a customer was already invited."
+  [current-input customer]
+  (if (contains? (get current-input :invitees) customer)
+          true
+          false))
+
+(defn register-inviter
+  "I update the input [:inviters] information."
+  [current-input invitee]
+  (update-in current-input [:inviters] (fn [x] (conj (get current-input :inviters) invitee))))
 
 (defn register-invitee
   "I update the input [:invitees] information."
   [current-input invitee]
-  (update-in current-input [:invitees] (fn [x] (conj (get current-input :invitees) invitee))))
-
-(defn register-inviter
-  "I also update the input [:invitees] information."
-  [current-input inviter]
-  (update-in current-input [:invitees] (fn [x] (conj (get current-input :invitees) inviter))))
+  (if (customer-has-invited current-input invitee)
+      current-input
+      (update-in current-input [:invitees] (fn [x] (conj (get current-input :invitees) invitee)))))
 
 (defn apply-changes
   "I update the input informations outside :data."
   [current-input invitation]
-  (update-root (register-invitee (register-inviter current-input (first invitation)) (last invitation)) invitation))
+  (register-invitee (register-inviter current-input (first invitation)) (last invitation)))
 
 (defn add-first-time-invitation
   "I add a new first-time invitation to the current input."
@@ -39,13 +57,15 @@
   (if (contains? (get current-input :data) (first invitation))
       (update-in current-input [:data (first invitation) 1] (fn [x] (conj (get-in current-input [:data (first invitation) 1]) (last invitation))))
       (update-in current-input [:data (first invitation)] (fn [x] [#{} #{(last invitation)}]))))
-      
+
 (defn is-first-time-invitation
   "I check if some new invitation is first-time."
   [current-input invitation]
-  (if (contains? (get current-input :invitees) (last invitation))
+  (if (customer-has-invited current-input (last invitation))
       false
-      true))
+      (if (customer-was-invited current-input (last invitation))
+          false
+          true)))
 
 (defn add-invitation
   "I add a new invitation to the current input."
