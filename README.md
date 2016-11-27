@@ -39,7 +39,7 @@ After the server starts:
  - `/addInvitation?from=ID1&to=ID2` adds a new invitation from ID1 to ID2 and shows the result.
 
  Example:
- - Access: `http://localhost:3000/getRanking/` -> Loaded initial data and showed index.html.
+ - Access: `http://localhost:3000/getRanking/` loaded initial data and showed index.html.
  - Access: `/getRanking` showed the json-formatted ranking.
  - Access: `/addInvitation?from=5&to=8` added a new invitation from customer 5 to customer 8 and showed the result.
 
@@ -74,14 +74,12 @@ I implemented the Tree data structure in a very simple manner: each customer/inv
 
 Despite being the best option for the solution computation, the tree has been proven inefficient for inclusion, since we can't access elements without searching in the tree.
 
-To solve this problem, I changed my data structure to something that still allows me quickly transverse the structure looking for result, but that also allows me to make inclusion in something close to O(1).
+To solve this problem, I changed my data structure to something that still allows me to quickly transverse the structure looking for the result, but that also allows me to make inclusion in something close to O(1).
 
 The result was a hash-map that contains:
- - Root: Customer that made the first invitation.
+ - Root: customer that made the first invitation.
  - Data: hash-map of 2-dim vectors of sets. Customers are the hash-map keys and lead to the pair of sets that contain the invitees of that customer. The first set stores the valid invitations, while the second set stores the invalid invitations.
- - Invitees: A set of the already-invited customers, for interal control.
-
-This data structure assumes there is only one non-invited customer (root).
+ - Invitees: a set of the already-invited customers, for internal control.
 
 ### The Amazing Solution
 
@@ -91,10 +89,10 @@ This can be done through recursion or dynamic programming. Let's stick to the re
 
 ### The Cycles Problem
 
-Oh, well, not everything smells like flower, right? After finishing my solution implementation, I found a problem when testing it with the provided input.txt. I managed to find the only line that makes my program crash: "42 1". Removing it, the program was going fine. It could have been due to all the big misteries that lay around the number 42, but it was actually just a problem with cycles.
+Oh, well, not everything smells like flowers, right? After finishing my solution implementation, I found a problem when testing it with the provided input.txt. I managed to find the only line that makes my program crash: "42 1". Removing it, the program was going fine. It could have been due to all the big misteries that lay around the number 42, but it was actually just a problem with cycles.
 In fact, it makes a lot of sense, since cycles would create mutual dependencies, making it impossible to make the caculations.
 To solve it, I made an assumption: if someone has made any invitation, this person counts as an invited person, even if no one has actually invited this person.
-This way, we can apply the "multiple invites sent to the same person don't produce any further points" rule and apply the solution successfully.
+This way, we can apply the "multiple invites sent to the same person don't produce any further points" rule and calculate the solution successfully.
 
 ### Expanding Horizons
 
@@ -102,7 +100,7 @@ Imagine the input as a tree, where the inviter is the parent and the invitee is 
 My first solution assumed there would be only one root. It's the same as assuming the data graph has only one component.
 This assumption is a lie. In fact, for it to be true, the company would have to lauch the reward system while it had only one customer.
 Thinking about that, I changed the solution to accept as many roots as you may want. This way, the solution will work no matter how many customers the company already had before implementing the reward system.
-In terms of the, it means that the solution accepts more than one non-invited inviter.
+In terms of the input, it means that the solution accepts more than one non-invited inviter.
 
 ### Next Steps
 
