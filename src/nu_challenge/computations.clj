@@ -48,9 +48,9 @@
 (defn compute-scores
 	"I compute the scores of all the customers and return it as a hash-map."
 	[invitations]
-	(if (= (get invitations :root) -1)
+	(if (= (count (get invitations :root)) 0)
 			{}
-			(compute-score (get invitations :data) (get invitations :root))))
+			(merge (compute-score (get invitations :data) (first (get invitations :root))) (compute-scores (update-in invitations [:root] (fn [x] (remove #{(first (get invitations :root))} (get invitations :root))))))))
 
 (defn inverse-sort-map-by-values
 	"I sort (from big to low) the elements of a map using the values as the comparators."

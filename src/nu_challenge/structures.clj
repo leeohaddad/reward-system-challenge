@@ -4,9 +4,9 @@
 
 ; ----------------------------------------------------------------------------------------------------
 (defn get-root
-  "I find out which inviter has not been invited."
+  "I find out which inviters has not been invited."
   [current-input]
-  (first (set/difference (get current-input :inviters) (get current-input :invitees))))
+  (set/difference (get current-input :inviters) (get current-input :invitees)))
 
 (defn set-root
   "I set the input [:root] information."

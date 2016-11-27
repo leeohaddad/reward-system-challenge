@@ -8,7 +8,7 @@
   "I store and delivery hardcoded inputs. Call example: '(get-hardcoded-input :example)'."
   [input-id]
   (if (= input-id :example)
-    {:root 1 :data {1 [#{2 3} #{}] 2 [#{} #{4}] 3 [#{4} #{}] 4 [#{5 6} #{}] 5 [#{} #{}] 6 [#{} #{}]} :inviters #{} :invitees #{}}))
+    {:root #{1} :data {1 [#{2 3} #{}] 2 [#{} #{4}] 3 [#{4} #{}] 4 [#{5 6} #{}] 5 [#{} #{}] 6 [#{} #{}]} :inviters #{} :invitees #{}}))
 
 (defn simulate-invitations-input
   "I simulate the sequential usage of function add-invitation to buid an input!"
@@ -19,12 +19,12 @@
   "I add invitations from some specified file to the current input."
   [current-input source-file]
   (reduce add-invitation current-input (map (fn [input] (clojure.string/split input #" ")) (clojure.string/split-lines (slurp source-file)))))
-  ;(simulate-invitations-input current-input)) ; for tests
+  ; (simulate-invitations-input current-input)) ; for tests
   
 (defn read-input-from-file
   "I go get the input from some specified file."
   [source-file]
-  (set-root (add-invitations-from-file {:root -1 :data {} :inviters #{} :invitees #{}} source-file)))
+  (set-root (add-invitations-from-file {:root #{} :data {} :inviters #{} :invitees #{}} source-file)))
 
 (defn read-input
   "I go after the input using the mode chosen by the caller!"

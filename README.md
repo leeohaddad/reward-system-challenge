@@ -96,6 +96,14 @@ In fact, it makes a lot of sense, since cycles would create mutual dependencies,
 To solve it, I made an assumption: if someone has made any invitation, this person counts as an invited person, even if no one has actually invited this person.
 This way, we can apply the "multiple invites sent to the same person don't produce any further points" rule and apply the solution successfully.
 
+### Expanding Horizons
+
+Imagine the input as a tree, where the inviter is the parent and the invitee is one of the children.
+My first solution assumed there would be only one root. It's the same as assuming the data graph has only one component.
+This assumption is a lie. In fact, for it to be true, the company would have to lauch the reward system while it had only one customer.
+Thinking about that, I changed the solution to accept as many roots as you may want. This way, the solution will work no matter how many customers the company already had before implementing the reward system.
+In terms of the, it means that the solution accepts more than one non-invited inviter.
+
 ### Next Steps
 
  - Bring some concurrency.
@@ -103,7 +111,6 @@ This way, we can apply the "multiple invites sent to the same person don't produ
 
 ### Future Possibilities
 
- - Implement multiple roots (non-invited customers). For now, assumes it's unique.
  - Implement other nice ways of updating the database (e.g. a request that receives a list of invitations and adds them all).
 
 ...
