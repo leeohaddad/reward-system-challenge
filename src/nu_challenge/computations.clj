@@ -52,9 +52,18 @@
 			{}
 			(compute-score (get invitations :data) (get invitations :root))))
 
+(defn inverse-sort-map-by-values
+	"I sort (from big to low) the elements of a map using the values as the comparators."
+	[the-map]
+	(into (sorted-map-by (fn [key1 key2]
+                     (compare [(get the-map key2) key2]
+                              [(get the-map key1) key1])))
+    		the-map))
+
 (defn build-ranking-map
 	"I receive a hash-map of scores and return it as a map structure."
 	[scores-hash-map]
-	(hash-map "ranking" (reduce conj {} (sort-by last > scores-hash-map))))
+	(hash-map "ranking" (inverse-sort-map-by-values scores-hash-map)))
+	;(hash-map "ranking" (reduce conj {} (sort-by last > scores-hash-map)))) ; applying (reduce conj) screws the (sort-by last >)'s work in some cases (ex.: input.txt) and I couldn't figure out why.
 ; end of computations functions
 ; ----------------------------------------------------------------------------------------------------
