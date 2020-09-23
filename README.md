@@ -1,7 +1,6 @@
-# nu-challenge
+# Reward System Challenge
 
-This is a challenge for evaluating my Clojure learning process and my skills at the current moment.
-Thank you Rodrigo Flores for all the good Clojure references you provided to me!
+This project solves tje Reward System Challenge, described in [this file](resources/exercise.txt). It was developed in Clojure, as part of my exploration & learning process about functional paradigm.
 
 ## Installation
 
@@ -110,6 +109,18 @@ In terms of the input, it means that the solution accepts more than one non-invi
 ### Future Possibilities
 
  - Implement other nice ways of updating the database (e.g. a request that receives a list of invitations and adds them all).
+ 
+
+## Clojure References
+
+- Book http://www.braveclojure.com/
+- Book Programming Clojure by Stuart Halloway
+- https://github.com/gigasquid/wonderland-clojure-katas
+- http://clojurekoans.com/
+- http://www.tryclj.com/
+- HTTP: https://github.com/weavejester/compojure 
+- JSON: https://github.com/dakrone/cheshire
+- JSON: https://github.com/clojure/data.json
 
 ...
 
